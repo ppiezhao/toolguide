@@ -1,0 +1,186 @@
+/* pages/index/index.wxss */
+.container {
+  min-height: 100vh;
+  padding-bottom: 60px;
+}
+
+/* 头部 */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24rpx;
+  background-color: #FFFFFF;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #07C160;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+}
+
+.header-icon {
+  width: 64rpx;
+  height: 64rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin-left: 16rpx;
+}
+
+/* 轮播图 */
+.banner-container {
+  width: 100%;
+  height: 360rpx;
+}
+
+.banner-container swiper-item {
+  width: 100%;
+  height: 100%;
+}
+
+.banner-container image {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* 分类标签 */
+.category-tabs {
+  display: flex;
+  overflow-x: auto;
+  white-space: nowrap;
+  padding: 20rpx 24rpx;
+  background-color: #FFFFFF;
+}
+
+.category-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.category-tab {
+  display: inline-block;
+  padding: 12rpx 32rpx;
+  margin: 0 12rpx;
+  border-radius: 32rpx;
+  background-color: #FFFFFF;
+  color: #333333;
+  font-size: 28rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.08);
+  transition: all 0.3s;
+}
+
+.category-tab.active {
+  background-color: #07C160;
+  color: #FFFFFF;
+}
+
+/* 小程序列表 */
+.app-list {
+  padding: 0 20rpx;
+}
+
+.app-card {
+  background-color: #FFFFFF;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.05);
+  transition: all 0.3s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.app-card:active {
+  transform: translateY(-4rpx);
+  box-shadow: 0 8rpx 30rpx rgba(0, 0, 0, 0.1);
+}
+
+.app-icon {
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: 16rpx;
+  overflow: hidden;
+  margin: 0 auto 16rpx;
+}
+
+.app-icon image {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.app-info {
+  text-align: center;
+}
+
+.app-name {
+  font-size: 32rpx;
+  font-weight: 500;
+  color: #333333;
+  margin-bottom: 8rpx;
+}
+
+.app-desc {
+  font-size: 24rpx;
+  color: #999999;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.app-rating {
+  margin-top: 16rpx;
+  display: flex;
+  justify-content: center;
+}
+
+.app-rating icon {
+  margin-right: 4rpx;
+}
+
+.app-rating icon:last-child {
+  margin-right: 0;
+}
+
+/* 加载更多 */
+.load-more-container {
+  display: flex;
+  justify-content: center;
+  padding: 40rpx 0;
+  margin-bottom: 60rpx;
+}
+
+.load-more-btn {
+  width: 280rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  background-color: #FFFFFF;
+  color: #07C160;
+  border: 2rpx solid #07C160;
+  border-radius: 60rpx;
+  font-size: 28rpx;
+  margin: 0 auto;
+  padding: 0;
+  text-align: center;
+}
+
+.load-more-btn::after {
+  border: none;
+}
+
+.load-more-btn[loading] {
+  color: transparent;
+}

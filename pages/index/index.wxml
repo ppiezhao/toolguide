@@ -1,0 +1,75 @@
+<!--pages/index/index.wxml-->
+<view class="container">
+  <!-- 头部 -->
+  <view class="header">
+    <text class="header-title">微信小程序导航</text>
+    <view class="header-actions">
+      <view class="header-icon">
+        <icon type="search" size="18" color="#999"></icon>
+      </view>
+      <view class="header-icon">
+        <icon type="notification" size="18" color="#999"></icon>
+      </view>
+    </view>
+  </view>
+
+  <!-- 轮播图 -->
+  <swiper class="banner-container" indicator-dots indicator-color="rgba(255,255,255,0.5)" indicator-active-color="#FFFFFF" autoplay circular interval="3000" duration="300">
+    <swiper-item>
+      <image src="https://p26-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/586318a95a0a4410a3187337a67852f9~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=20260519105140E093746C3B3B1B8D3D6D&rrcfp=f06b921b&x-expires=1781751159&x-signature=1nD8wCV3TaOa%2FEha1GIQ6hwZozI%3D" mode="aspectFill"></image>
+    </swiper-item>
+    <swiper-item>
+      <image src="https://p11-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/603dfa523e434c07b44827f1a2bb685d~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=20260519105140E093746C3B3B1B8D3D6D&rrcfp=f06b921b&x-expires=1781751154&x-signature=nBiFTXix0Nd0HwA8YK6DyvP7dWE%3D" mode="aspectFill"></image>
+    </swiper-item>
+    <swiper-item>
+      <image src="https://p26-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/4a11a110e20c4532be476bb17c009911~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=20260519105140E093746C3B3B1B8D3D6D&rrcfp=f06b921b&x-expires=1781751157&x-signature=A1wAl8QvCNVwxoKbZKECPNNKxVk%3D" mode="aspectFill"></image>
+    </swiper-item>
+  </swiper>
+
+  <!-- 分类标签 -->
+  <view class="category-tabs">
+    <view
+      wx:for="{{categories}}"
+      wx:key="value"
+      class="category-tab {{currentCategory === item.value ? 'active' : ''}}"
+      bindtap="switchCategory"
+      data-value="{{item.value}}"
+    >{{item.name}}</view>
+  </view>
+
+  <!-- 小程序列表 -->
+  <view class="app-list">
+    <view
+      wx:for="{{filteredApps}}"
+      wx:key="id"
+      class="app-card"
+      bindtap="openApp"
+      data-app="{{item}}"
+    >
+      <view class="app-icon">
+        <image src="{{item.icon}}" mode="aspectFill"></image>
+      </view>
+      <view class="app-info">
+        <text class="app-name">{{item.name}}</text>
+        <view class="app-rating">
+          <icon wx:for="{{[1,2,3,4,5]}}" wx:for-item="starIndex"
+            wx:key="*this"
+            wx:if="{{starIndex <= Math.ceil(item.rating / 2)}}"
+            type="star"
+            size="12"
+            color="{{starIndex <= item.rating ? '#FFB800' : '#E5E5E5'}}"
+          ></icon>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 加载更多 -->
+  <view class="load-more-container" wx:if="{{showLoadMore}}">
+    <button
+      class="load-more-btn"
+      loading="{{loading}}"
+      bindtap="loadMore"
+    >{{loading ? '' : '加载更多'}}</button>
+  </view>
+</view>
