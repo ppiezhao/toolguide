@@ -1,0 +1,103 @@
+<!--pages/calendar/calendar.wxml-->
+<view class="container">
+  <!-- 头部 -->
+  <view class="header">
+    <view class="header-left">
+      <text class="header-title">每日打卡</text>
+      <text class="header-subtitle">{{currentDateStr}}</text>
+    </view>
+    <view class="header-right">
+      <button class="screenshot-btn" bindtap="takeScreenshot">截图保存</button>
+    </view>
+  </view>
+
+  <!-- 日历区域 -->
+  <view class="calendar-container">
+    <view class="calendar-header">
+      <text class="calendar-title">{{calendarTitle}}</text>
+      <view class="calendar-nav">
+        <view class="nav-btn" bindtap="prevMonth">‹</view>
+        <view class="nav-btn" bindtap="nextMonth">›</view>
+      </view>
+    </view>
+
+    <view class="calendar-week">
+      <view class="week-item">日</view>
+      <view class="week-item">一</view>
+      <view class="week-item">二</view>
+      <view class="week-item">三</view>
+      <view class="week-item">四</view>
+      <view class="week-item">五</view>
+      <view class="week-item">六</view>
+    </view>
+
+    <view class="calendar-grid">
+      <view
+        wx:for="{{calendarDays}}"
+        wx:key="date"
+        class="calendar-day {{item.today ? 'today' : ''}} {{item.selected ? 'selected' : ''}} {{item.hasCheckIn ? 'has-check-in' : ''}}"
+        bindtap="selectDay"
+        data-date="{{item.fullDate}}"
+      >
+        <text>{{item.day}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 日历内容区域 -->
+  <view class="calendar-content">
+    <text class="content-date">{{selectedDateStr}} 打卡内容</text>
+
+    <view wx:if="{{!hasContent}}" class="content-empty">
+      今天还没有打卡内容，点击下方按钮开始记录
+    </view>
+
+    <block wx:else>
+      <view class="content-item">
+        <text class="content-label">今日记录</text>
+        <view class="content-text {{item.color === 'red' ? 'red' : ''}}" wx:for="{{contentItems}}" wx:key="index">
+          {{item.text}}
+        </view>
+      </block>
+
+      <button class="edit-btn" bindtap="showEditModal">+ 添加记录</button>
+    </block>
+  </view>
+</view>
+
+<!-- 编辑模态框 -->
+<view class="modal" wx:if="{{showModal}}" catchtap="closeModal">
+  <view class="modal-content" catchtap="stopPropagation">
+    <text class="modal-title">添加打卡内容</text>
+
+    <view class="color-options">
+      <view
+        class="color-option {{selectedColor === 'black' ? 'selected' : ''}}"
+        data-color="black"
+        bindtap="selectColor"
+      >
+        <text style="color: #666; font-size: 24rpx;">黑色</text>
+      </view>
+      <view
+        class="color-option {{selectedColor === 'red' ? 'selected' : ''}}"
+        data-color="red"
+        bindtap="selectColor"
+      >
+        <text style="color: #E64340; font-size: 24rpx;">红色</text>
+      </view>
+    </view>
+
+    <textarea
+      class="modal-textarea {{selectedColor === 'red' ? 'red' : ''}}"
+      placeholder="请输入打卡内容..."
+      value="{{editText}}"
+      bindinput="onEditTextChange"
+      maxlength="500"
+    ></textarea>
+
+    <view class="modal-buttons">
+      <button class="modal-button cancel" bindtap="cancelEdit">取消</button>
+      <button class="modal-button primary" bindtap="saveEdit">保存</button>
+    </view>
+  </view>
+</view>

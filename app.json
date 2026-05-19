@@ -1,46 +1,13 @@
 {
   "pages": [
-    "pages/index/index"
+    "pages/calendar/calendar"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#07C160",
-    "navigationBarTitleText": "微信小程序导航",
+    "navigationBarTitleText": "每日打卡",
     "navigationBarTextStyle": "white",
     "backgroundColor": "#F7F7F7"
   },
-  "tabBar": {
-    "color": "#999999",
-    "selectedColor": "#07C160",
-    "backgroundColor": "#FFFFFF",
-    "borderStyle": "black",
-    "list": [
-      {
-        "pagePath": "pages/index/index",
-        "text": "首页",
-        "iconPath": "assets/home.png",
-        "selectedIconPath": "assets/home-active.png"
-      },
-      {
-        "pagePath": "pages/index/index",
-        "text": "发现",
-        "iconPath": "assets/discover.png",
-        "selectedIconPath": "assets/discover-active.png"
-      },
-      {
-        "pagePath": "pages/index/index",
-        "text": "收藏",
-        "iconPath": "assets/star.png",
-        "selectedIconPath": "assets/star-active.png"
-      },
-      {
-        "pagePath": "pages/index/index",
-        "text": "我的",
-        "iconPath": "assets/user.png",
-        "selectedIconPath": "assets/user-active.png"
-      }
-    ]
-  },
-  "style": "v2",
   "sitemapLocation": "sitemap.json"
 }

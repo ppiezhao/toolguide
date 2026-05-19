@@ -1,9 +1,4 @@
-/* app.wxss */
-page {
-  background-color: #F7F7F7;
-  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
-}
-
+/* pages/calendar/calendar.wxss */
 .container {
   min-height: 100vh;
   padding-bottom: 20px;
@@ -47,6 +42,12 @@ page {
   color: #FFFFFF;
   border-radius: 40rpx;
   font-size: 26rpx;
+  margin: 0;
+  line-height: 1;
+}
+
+.screenshot-btn::after {
+  border: none;
 }
 
 .screenshot-btn:active {
@@ -90,6 +91,11 @@ page {
   justify-content: center;
   font-size: 32rpx;
   color: #333;
+  line-height: 1;
+}
+
+.nav-btn::after {
+  border: none;
 }
 
 .nav-btn:active {
@@ -200,16 +206,12 @@ page {
   color: #FFFFFF;
   border-radius: 8rpx;
   font-size: 26rpx;
-  text-align: center;
+  margin: 20rpx 0 0 0;
+  line-height: 1;
 }
 
-.save-btn {
-  margin-top: 20rpx;
-  padding: 16rpx 32rpx;
-  background-color: #07C160;
-  color: #FFFFFF;
-  border-radius: 8rpx;
-  font-size: 26rpx;
+.edit-btn::after {
+  border: none;
 }
 
 /* 模态框 */
@@ -251,10 +253,19 @@ page {
   font-size: 28rpx;
   line-height: 1.6;
   margin-bottom: 20rpx;
+  box-sizing: border-box;
 }
 
 .modal-textarea.red {
   color: #E64340;
+}
+
+.modal-textarea::placeholder {
+  color: #999;
+}
+
+.modal-textarea:focus {
+  border-color: #07C160;
 }
 
 .modal-buttons {
@@ -269,6 +280,12 @@ page {
   border-radius: 8rpx;
   font-size: 28rpx;
   text-align: center;
+  line-height: 1;
+  margin: 0;
+}
+
+.modal-button::after {
+  border: none;
 }
 
 .modal-button.primary {
@@ -289,17 +306,19 @@ page {
 }
 
 .color-option {
-  width: 60rpx;
-  height: 60rpx;
+  width: 80rpx;
+  height: 80rpx;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  border: 3rpx solid transparent;
+  transition: all 0.3s;
 }
 
 .color-option.selected {
-  border: 3rpx solid #333;
+  border-color: #333;
   transform: scale(1.1);
 }
 
@@ -307,6 +326,14 @@ page {
   background-color: #333;
 }
 
+.color-option.black.selected {
+  border-color: #333;
+}
+
 .color-option.red {
   background-color: #E64340;
+}
+
+.color-option.red.selected {
+  border-color: #E64340;
 }
