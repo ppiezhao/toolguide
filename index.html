@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>微信小程序导航站</title>
+    <!-- Tailwind CSS v3 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#07C160', // 微信绿
+                        secondary: '#1296DB', // 微信蓝
+                        light: '#F7F7F7',
+                        dark: '#333333',
+                        'gray-light': '#E5E5E5',
+                        'gray-medium': '#999999'
+                    },
+                    fontFamily: {
+                        sans: ['PingFang SC', 'Helvetica Neue', 'Arial', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'card': '0 2px 10px rgba(0, 0, 0, 0.05)',
+                        'card-hover': '0 4px 15px rgba(0, 0, 0, 0.1)'
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-shadow {
+                text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            }
+            .transition-transform {
+                transition-property: transform;
+                transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+                transition-duration: 150ms;
+            }
+            .swiper-pagination-bullet {
+                @apply w-2 h-2 rounded-full bg-white bg-opacity-50 mx-1;
+            }
+            .swiper-pagination-bullet-active {
+                @apply bg-opacity-100;
+            }
+        }
+    </style>
+    <style>
+        /* 自定义样式 */
+        body {
+            font-family: 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
+            background-color: #F7F7F7;
+        }
+        
+        /* 轮播图样式 */
+        .banner-container {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            height: 180px;
+        }
+        
+        .banner-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        .banner-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .banner-pagination {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            z-index: 10;
+        }
+        
+        .banner-pagination .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            margin: 0 4px;
+            transition: background-color 0.3s;
+        }
+        
+        .banner-pagination .dot.active {
+            background-color: #fff;
+        }
+        
+        /* 分类标签样式 */
+        .category-tabs {
+            display: flex;
+            overflow-x: auto;
+            white-space: nowrap;
+            padding: 10px 0;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+        
+        .category-tabs::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .category-tab {
+            display: inline-block;
+            padding: 6px 16px;
+            margin: 0 6px;
+            border-radius: 16px;
+            background-color: #fff;
+            color: #333;
+            font-size: 14px;
+            transition: all 0.3s;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .category-tab.active {
+            background-color: #07C160;
+            color: #fff;
+        }
+        
+        /* 小程序卡片样式 */
+        .app-card {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+        }
+        
+        .app-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .app-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-right: 12px;
+        }
+        
+        .app-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .app-info {
+            flex: 1;
+        }
+        
+        .app-name {
+            font-size: 16px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 4px;
+        }
+        
+        .app-desc {
+            font-size: 12px;
+            color: #999;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .app-rating {
+            margin-top: 8px;
+        }
+        
+        .app-rating .star {
+            color: #FFB800;
+            font-size: 12px;
+        }
+        
+        /* 加载动画 */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .loading .spinner {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #07C160;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <!-- 头部区域 -->
+    <header class="sticky top-0 z-50 bg-white shadow-sm">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center">
+                <h1 class="text-xl font-bold text-primary">微信小程序导航</h1>
+            </div>
+            <div class="flex items-center">
+                <button class="p-2 rounded-full hover:bg-gray-light">
+                    <i class="fa fa-search text-gray-medium"></i>
+                </button>
+                <button class="p-2 rounded-full hover:bg-gray-light ml-2">
+                    <i class="fa fa-bell text-gray-medium"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 轮播Banner区域 -->
+    <section class="banner-container mx-auto">
+        <div class="banner-slide">
+            <img src="https://p26-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/586318a95a0a4410a3187337a67852f9~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=20260519105140E093746C3B3B1B8D3D6D&rrcfp=f06b921b&x-expires=1781751159&x-signature=1nD8wCV3TaOa%2FEha1GIQ6hwZozI%3D" alt="微信小程序导航">
+        </div>
+        <div class="banner-slide">
+            <img src="https://p11-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/603dfa523e434c07b44827f1a2bb685d~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=20260519105140E093746C3B3B1B8D3D6D&rrcfp=f06b921b&x-expires=1781751154&x-signature=nBiFTXix0Nd0HwA8YK6DyvP7dWE%3D" alt="精选小程序推荐">
+        </div>
+        <div class="banner-slide">
+            <img src="https://p26-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/4a11a110e20c4532be476bb17c009911~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=20260519105140E093746C3B3B1B8D3D6D&rrcfp=f06b921b&x-expires=1781751157&x-signature=A1wAl8QvCNVwxoKbZKECPNNKxVk%3D" alt="微信小程序导航平台">
+        </div>
+        <div class="banner-pagination">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+        </div>
+    </section>
+
+    <!-- 分类导航区域 -->
+    <section class="container mx-auto px-4 py-4">
+        <div class="category-tabs">
+            <span class="category-tab active" data-category="all">全部</span>
+            <span class="category-tab" data-category="food">外卖美食</span>
+            <span class="category-tab" data-category="travel">出行服务</span>
+            <span class="category-tab" data-category="shopping">购物电商</span>
+            <span class="category-tab" data-category="entertainment">娱乐游戏</span>
+            <span class="category-tab" data-category="tools">实用工具</span>
+            <span class="category-tab" data-category="education">教育学习</span>
+            <span class="category-tab" data-category="finance">金融理财</span>
+            <span class="category-tab" data-category="life">生活服务</span>
+            <span class="category-tab" data-category="health">健康医疗</span>
+        </div>
+    </section>
+
+    <!-- 小程序列表区域 -->
+    <section class="container mx-auto px-4 py-2">
+        <div class="grid grid-cols-2 gap-4" id="app-list">
+            <!-- 小程序卡片将通过JavaScript动态生成 -->
+        </div>
+        
+        <!-- 加载更多按钮 -->
+        <div class="flex justify-center mt-6 mb-8">
+            <button id="load-more" class="px-6 py-2 bg-white text-primary border border-primary rounded-full text-sm font-medium hover:bg-primary hover:text-white transition-colors">
+                加载更多
+            </button>
+        </div>
+    </section>
+
+    <!-- 底部导航区域 -->
+    <footer class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-light z-40">
+        <div class="flex justify-around">
+            <a href="#" class="flex flex-col items-center py-2 text-primary">
+                <i class="fa fa-home text-lg"></i>
+                <span class="text-xs mt-1">首页</span>
+            </a>
+            <a href="#" class="flex flex-col items-center py-2 text-gray-medium">
+                <i class="fa fa-compass text-lg"></i>
+                <span class="text-xs mt-1">发现</span>
+            </a>
+            <a href="#" class="flex flex-col items-center py-2 text-gray-medium">
+                <i class="fa fa-star text-lg"></i>
+                <span class="text-xs mt-1">收藏</span>
+            </a>
+            <a href="#" class="flex flex-col items-center py-2 text-gray-medium">
+                <i class="fa fa-user text-lg"></i>
+                <span class="text-xs mt-1">我的</span>
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        // 模拟数据 - 小程序列表
+        const appData = [
+            {
+                id: '1',
+                name: '美团外卖',
+                description: '随时随地订餐，外卖美食送到家',
+                icon: 'https://p11-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/ee3da03d92864d84bb532b414977e037~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=20260519105140E093746C3B3B1B8D3D6D&rrcfp=f06b921b&x-expires=1781751189&x-signature=74ZplB5C1K3EsJYPmnDmu5fY53E%3D',
+                category: 'food',
+                categoryName: '外卖美食',
+                rating: 4.8,
+                usageCount: 12580000,
+                url: 'weixin://wx2c462b6b35599968/pages/login/login'
+            },
+            {
+                id: '2',
+                name: '滴滴出行',
+                description: '打车、顺风车、专车，一站式出行服务',
+                icon: 'https://p11-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/0bc7f437f6af44fd9c28ce4f46395df3~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=20260519105140E093746C3B3B1B8D3D6D&rrcfp=f06b921b&x-expires=1781751186&x-signature=cWiuBsGkrLhiKeIgOWBZ%2B0bNrG0%3D',
+                category: 'travel',
+                categoryName: '出行服务',
+                rating: 4.6,
+                usageCount: 9876000,
+                url: 'weixin://wx4418e3e031e551f8/pages/index/index'
+            },
+            {
+                id: '3',
+                name: '拼多多',
+                description: '拼着买更便宜，百亿补贴，品质保障',
+                icon: 'https://p6-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/80f195ab2b0849fcad8586e0ddc894bc~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=20260519105140E093746C3B3B1B8D3D6D&rrcfp=f06b921b&x-expires=1781751186&x-signature=REEJCsgL4As873Jx07Lgpllfc9Q%3D',
+                category: 'shopping',
+                categoryName: '购物电商',
+                rating: 4.5,
+                usageCount: 15678000,
+                url: 'weixin://wx322be43545d49501/pages/index/index'
+            },
+            {
+                id: '4',
+                name: '腾讯视频',
+                description: '热门电影、电视剧、综艺、动漫等你来看',
+                icon: 'https://p3-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/45a259aa744b472fa84c3266b6dea825~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=20260519105140E093746C3B3B1B8D3D6D&rrcfp=f06b921b&x-expires=1781751185&x-signature=HFzHgdmHp0z%2BDF7ka2A7FT2sygU%3D',
+                category: 'entertainment',
+                categoryName: '娱乐游戏',
+                rating: 4.7,
+                usageCount: 11234000,
+                url: 'weixin://wx5f37550f686957a4/pages/index/index'
+            },
+            {
+                id: '5',
+                name: '微信读书',
+                description: '海量正版书籍，随时随地阅读',
+                icon: 'https://p6-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/29ffedd12452471d93577f5786512d67~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=20260519105140E093746C3B3B1B8D3D6D&rrcfp=f06b921b&x-expires=1781751191&x-signature=Q49j%2B2EPu87dHkkoRHftDkjAQJg%3D',
+                category: 'education',
+                categoryName: '教育学习',
+                rating: 4.9,
+                usageCount: 7890000,
+                url: 'weixin://wxbdb3a24bb4f58947/pages/app/index'
+            },
+            {
+                id: '6',
+                name: '微信支付',
+                description: '安全便捷的支付方式，生活缴费、转账汇款',
+                icon: 'https://p11-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/acc70185b8be4683a7a9332d725913a0~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=20260519105140E093746C3B3B1B8D3D6D&rrcfp=f06b921b&x-expires=1781751199&x-signature=h3e0r9ZB4N%2BcVGvMoESjr7bPMqA%3D',
+                category: 'finance',
+                categoryName: '金融理财',
+                rating: 4.8,
+                usageCount: 20123000,
+                url: 'weixin://wx5f5b34b3a63b9761/pages/index/index'
+            },
+            {
+                id: '7',
+                name: '生活缴费',
+                description: '水电气费一键缴纳，方便快捷',
+                icon: 'https://p11-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/acc70185b8be4683a7a9332d725913a0~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=20260519105140E093746C3B3B1B8D3D6D&rrcfp=f06b921b&x-expires=1781751199&x-signature=h3e0r9ZB4N%2BcVGvMoESjr7bPMqA%3D',
+                category: 'life',
+                categoryName: '生活服务',
+                rating: 4.7,
+                usageCount: 8765000,
+                url: 'weixin://wx4e3b4c8b8f8e8e8e/pages/index/index'
+            },
+            {
+                id: '8',
+                name: '腾讯健康',
+                description: '在线问诊、体检报告解读、健康管理',
+                icon: 'https://p11-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/acc70185b8be4683a7a9332d725913a0~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=20260519105140E093746C3B3B1B8D3D6D&rrcfp=f06b921b&x-expires=1781751199&x-signature=h3e0r9ZB4N%2BcVGvMoESjr7bPMqA%3D',
+                category: 'health',
+                categoryName: '健康医疗',
+                rating: 4.6,
+                usageCount: 6543000,
+                url: 'weixin://wx8f8e8e8e8e8e8e8e/pages/index/index'
+            },
+            {
+                id: '9',
+                name: '百度地图',
+                description: '精准导航、实时路况、周边查询',
+                icon: 'https://p11-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/0bc7f437f6af44fd9c28ce4f46395df3~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=20260519105140E093746C3B3B1B8D3D6D&rrcfp=f06b921b&x-expires=1781751186&x-signature=cWiuBsGkrLhiKeIgOWBZ%2B0bNrG0%3D',
+                category: 'travel',
+                categoryName: '出行服务',
+                rating: 4.7,
+                usageCount: 10234000,
+                url: 'weixin://wx4e3b4c8b8f8e8e8e/pages/index/index'
+            },
+            {
+                id: '10',
+                name: '京东',
+                description: '正品低价、品质保障、快速配送',
+                icon: 'https://p6-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/80f195ab2b0849fcad8586e0ddc894bc~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=20260519105140E093746C3B3B1B8D3D6D&rrcfp=f06b921b&x-expires=1781751186&x-signature=REEJCsgL4As873Jx07Lgpllfc9Q%3D',
+                category: 'shopping',
+                categoryName: '购物电商',
+                rating: 4.6,
+                usageCount: 12345000,
+                url: 'weixin://wx4e3b4c8b8f8e8e8e/pages/index/index'
+            }
+        ];
+
+        // 当前显示的分类
+        let currentCategory = 'all';
+        // 当前显示的小程序数量
+        let currentAppCount = 8;
+        // 每次加载的小程序数量
+        const loadCount = 4;
+
+        // DOM元素
+        const appList = document.getElementById('app-list');
+        const loadMoreBtn = document.getElementById('load-more');
+        const categoryTabs = document.querySelectorAll('.category-tab');
+        const bannerSlides = document.querySelectorAll('.banner-slide');
+        const bannerDots = document.querySelectorAll('.banner-pagination .dot');
+
+        // 初始化页面
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化轮播图
+            initBanner();
+            
+            // 初始化小程序列表
+            renderAppList();
+            
+            // 绑定分类标签点击事件
+            bindCategoryTabs();
+            
+            // 绑定加载更多按钮点击事件
+            bindLoadMoreBtn();
+        });
+
+        // 初始化轮播图
+        function initBanner() {
+            let currentSlide = 0;
+            const slideCount = bannerSlides.length;
+            
+            // 设置轮播图初始位置
+            bannerSlides.forEach((slide, index) => {
+                slide.style.transform = `translateX(${index * 100}%)`;
+            });
+            
+            // 自动轮播
+            const slideInterval = setInterval(() => {
+                currentSlide = (currentSlide + 1) % slideCount;
+                moveToSlide(currentSlide);
+            }, 3000);
+            
+            // 点击指示器切换轮播图
+            bannerDots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    clearInterval(slideInterval);
+                    currentSlide = index;
+                    moveToSlide(currentSlide);
+                });
+            });
+            
+            // 移动到指定轮播图
+            function moveToSlide(index) {
+                bannerSlides.forEach((slide, i) => {
+                    slide.style.transform = `translateX(${(i - index) * 100}%)`;
+                });
+                
+                // 更新指示器
+                bannerDots.forEach((dot, i) => {
+                    if (i === index) {
+                        dot.classList.add('active');
+                    } else {
+                        dot.classList.remove('active');
+                    }
+                });
+            }
+            
+            // 触摸滑动切换轮播图
+            let touchStartX = 0;
+            let touchEndX = 0;
+            
+            const bannerContainer = document.querySelector('.banner-container');
+            
+            bannerContainer.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+            });
+            
+            bannerContainer.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            });
+            
+            function handleSwipe() {
+                if (touchEndX < touchStartX - 50) {
+                    // 向左滑动
+                    currentSlide = (currentSlide + 1) % slideCount;
+                } else if (touchEndX > touchStartX + 50) {
+                    // 向右滑动
+                    currentSlide = (currentSlide - 1 + slideCount) % slideCount;
+                }
+                
+                moveToSlide(currentSlide);
+            }
+        }
+
+        // 渲染小程序列表
+        function renderAppList() {
+            // 清空列表
+            appList.innerHTML = '';
+            
+            // 筛选当前分类的小程序
+            let filteredApps = appData;
+            if (currentCategory !== 'all') {
+                filteredApps = appData.filter(app => app.category === currentCategory);
+            }
+            
+            // 限制显示数量
+            const displayApps = filteredApps.slice(0, currentAppCount);
+            
+            // 渲染小程序卡片
+            displayApps.forEach(app => {
+                const appCard = document.createElement('div');
+                appCard.className = 'app-card flex flex-col items-center p-4';
+                appCard.innerHTML = `
+                    <div class="app-icon mb-3">
+                        <img src="${app.icon}" alt="${app.name}">
+                    </div>
+                    <div class="app-info text-center">
+                        <h3 class="app-name font-medium">${app.name}</h3>
+                        <div class="app-rating flex justify-center mt-1">
+                            ${generateStars(app.rating)}
+                        </div>
+                    </div>
+                `;
+                
+                // 点击跳转
+                appCard.addEventListener('click', () => {
+                    // 在微信环境中，这里会跳转到对应的小程序
+                    // 在浏览器环境中，我们模拟这个行为
+                    alert(`即将跳转到 ${app.name}`);
+                    // window.location.href = app.url;
+                });
+                
+                appList.appendChild(appCard);
+            });
+            
+            // 更新加载更多按钮状态
+            if (displayApps.length >= filteredApps.length) {
+                loadMoreBtn.style.display = 'none';
+            } else {
+                loadMoreBtn.style.display = 'block';
+            }
+        }
+
+        // 生成星级评分
+        function generateStars(rating) {
+            let stars = '';
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 >= 0.5;
+            
+            // 全星
+            for (let i = 0; i < fullStars; i++) {
+                stars += '<i class="fa fa-star star"></i>';
+            }
+            
+            // 半星
+            if (hasHalfStar) {
+                stars += '<i class="fa fa-star-half-o star"></i>';
+            }
+            
+            // 空星
+            const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+            for (let i = 0; i < emptyStars; i++) {
+                stars += '<i class="fa fa-star-o star"></i>';
+            }
+            
+            return stars;
+        }
+
+        // 绑定分类标签点击事件
+        function bindCategoryTabs() {
+            categoryTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // 更新选中状态
+                    categoryTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    
+                    // 更新当前分类
+                    currentCategory = tab.dataset.category;
+                    
+                    // 重置显示数量
+                    currentAppCount = 8;
+                    
+                    // 重新渲染列表
+                    renderAppList();
+                    
+                    // 如果不是"全部"分类，跳转到分类页面
+                    if (currentCategory !== 'all') {
+                        // 在实际应用中，这里会跳转到分类页面
+                        // 这里我们只是模拟这个行为，实际仍然在当前页面显示筛选结果
+                        // window.location.href = `category.html?category=${currentCategory}`;
+                    }
+                });
+            });
+        }
+
+        // 绑定加载更多按钮点击事件
+        function bindLoadMoreBtn() {
+            loadMoreBtn.addEventListener('click', () => {
+                // 显示加载动画
+                loadMoreBtn.innerHTML = '<div class="spinner"></div>';
+                
+                // 模拟加载延迟
+                setTimeout(() => {
+                    // 增加显示数量
+                    currentAppCount += loadCount;
+                    
+                    // 重新渲染列表
+                    renderAppList();
+                    
+                    // 恢复按钮文本
+                    loadMoreBtn.innerHTML = '加载更多';
+                }, 1000);
+            });
+        }
+    </script>
+</body>
+</html>
