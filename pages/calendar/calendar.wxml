@@ -35,7 +35,7 @@
       <view
         wx:for="{{calendarDays}}"
         wx:key="date"
-        class="calendar-day {{item.today ? 'today' : ''}} {{item.selected ? 'selected' : ''}} {{item.hasCheckIn ? 'has-check-in' : ''}}"
+        class="calendar-day {{item.today ? 'today' : ''}} {{item.selected ? 'selected' : ''}} {{item.hasCheckIn && 'has-check-in'}}"
         bindtap="selectDay"
         data-date="{{item.fullDate}}"
       >

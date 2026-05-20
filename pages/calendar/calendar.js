@@ -115,6 +115,9 @@ Page({
     const { checkInData } = this.data
     const today = this.formatDateStr(new Date())
 
+    // 确保checkInData是一个对象
+    const safeCheckInData = checkInData || {}
+
     // 生成日历格子
     const calendarDays = []
     const weekDays = ['日', '一', '二', '三', '四', '五', '六']
@@ -125,7 +128,7 @@ Page({
       calendarDays.push({
         day: prevMonthDays - i,
         fullDate: this.formatDate(currentYear, currentMonth - 1, prevMonthDays - i),
-        hasCheckIn: checkInData[this.formatDate(currentYear, currentMonth - 1, prevMonthDays - i)] ? true : false,
+        hasCheckIn: safeCheckInData[this.formatDate(currentYear, currentMonth - 1, prevMonthDays - i)] ? true : false,
         today: this.formatDate(currentYear, currentMonth - 1, prevMonthDays - i) === today
       })
     }
@@ -136,7 +139,7 @@ Page({
       calendarDays.push({
         day: i,
         fullDate: fullDate,
-        hasCheckIn: checkInData[fullDate] ? true : false,
+        hasCheckIn: safeCheckInData[fullDate] ? true : false,
         today: fullDate === today
       })
     }
