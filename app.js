@@ -1,6 +1,26 @@
 // app.js
 App({
   globalData: {
+    appData: [
+      {
+        id: 'checkin',
+        name: '每日打卡',
+        icon: 'https://p6-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/29ffedd12452471d93577f5786512d67~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=20260519105140E093746C3B3B1B8D3D6D&rrcfp=f06b921b&x-expires=1781751191&x-signature=Q49j%2B2EPu87dHkkoRHftDkjAQJg%3D',
+        category: 'tools',
+        categoryName: '工具服务',
+        rating: 4.9,
+        url: 'pages/calendar/calendar'
+      },
+      {
+        id: '1',
+        name: '美团外卖',
+        icon: 'https://p11-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/ee3da03d92864d84bb532b414977e037~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=20260519105140E093746C3B3B1B8D3D6D&rrcfp=f06b921b&x-expires=1781751189&x-signature=74ZplB5C1K3EsJYPmnDmu5fY53E%3D',
+        category: 'food',
+        categoryName: '外卖美食',
+        rating: 4.8,
+        url: 'weixin://wx2c462b6b35599968/pages/login/login'
+      }
+    ],
     checkInData: {}
   },
 

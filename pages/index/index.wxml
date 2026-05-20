@@ -13,15 +13,6 @@
     </view>
   </view>
 
-  <!-- 打卡入口 -->
-  <view class="checkin-entry" bindtap="goToCheckIn">
-    <view class="checkin-icon">
-      <icon type="check" size="24" color="#FFFFFF"></icon>
-    </view>
-    <text class="checkin-title">每日打卡</text>
-    <text class="checkin-desc">记录每一天的进步</text>
-  </view>
-
   <!-- 轮播图 -->
   <swiper class="banner-container" indicator-dots indicator-color="rgba(255,255,255,0.5)" indicator-active-color="#FFFFFF" autoplay circular interval="3000" duration="300">
     <swiper-item>

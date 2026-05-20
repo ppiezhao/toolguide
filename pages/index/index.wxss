@@ -22,45 +22,24 @@
   color: #07C160;
 }
 
-/* 打卡入口 */
-.checkin-entry {
-  margin: 24rpx;
-  padding: 40rpx;
+/* 打卡卡片 */
+.checkin-card {
   background: linear-gradient(135deg, #07C160 0%, #06AD56 100%);
-  border-radius: 24rpx;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  box-shadow: 0 8rpx 24rpx rgba(7, 193, 96, 0.3);
-  cursor: pointer;
-  transition: all 0.3s;
 }
 
-.checkin-entry:active {
-  transform: scale(0.98);
-}
-
-.checkin-icon {
+.checkin-card .app-icon {
+  background-color: rgba(255, 255, 255, 0.2);
   width: 80rpx;
   height: 80rpx;
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
+  border-radius: 16rpx;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 16rpx;
 }
 
-.checkin-title {
-  font-size: 36rpx;
-  font-weight: bold;
-  color: #FFFFFF;
-  margin-bottom: 8rpx;
-}
-
-.checkin-desc {
-  font-size: 24rpx;
-  color: rgba(255, 255, 255, 0.8);
+.checkin-card .app-desc {
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .header-actions {
