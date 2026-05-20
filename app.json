@@ -1,11 +1,12 @@
 {
   "pages": [
+    "pages/index/index",
     "pages/calendar/calendar"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#07C160",
-    "navigationBarTitleText": "每日打卡",
+    "navigationBarTitleText": "工具导航",
     "navigationBarTextStyle": "white",
     "backgroundColor": "#F7F7F7"
   },
