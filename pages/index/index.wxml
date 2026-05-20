@@ -2,7 +2,7 @@
 <view class="container">
   <!-- 头部 -->
   <view class="header">
-    <text class="header-title">微信小程序导航</text>
+    <text class="header-title">工具导航</text>
     <view class="header-actions">
       <view class="header-icon">
         <icon type="search" size="18" color="#999"></icon>
@@ -11,6 +11,15 @@
         <icon type="notification" size="18" color="#999"></icon>
       </view>
     </view>
+  </view>
+
+  <!-- 打卡入口 -->
+  <view class="checkin-entry" bindtap="goToCheckIn">
+    <view class="checkin-icon">
+      <icon type="check" size="24" color="#FFFFFF"></icon>
+    </view>
+    <text class="checkin-title">每日打卡</text>
+    <text class="checkin-desc">记录每一天的进步</text>
   </view>
 
   <!-- 轮播图 -->
