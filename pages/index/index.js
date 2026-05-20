@@ -108,16 +108,16 @@ Page({
   // 打开小程序
   openApp(e) {
     const { app } = e.currentTarget.dataset
+    // 如果是打卡小程序，导航到打卡页面
+    if (app.id === 'checkin') {
+      wx.navigateTo({
+        url: '/pages/calendar/calendar'
+      })
+      return
+    }
     wx.showToast({
       title: `即将打开 ${app.name}`,
       icon: 'none'
-    })
-  },
-
-  // 跳转到打卡页面
-  goToCheckIn() {
-    wx.navigateTo({
-      url: '/pages/calendar/calendar'
     })
   },
 
