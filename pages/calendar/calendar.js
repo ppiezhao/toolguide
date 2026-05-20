@@ -195,7 +195,8 @@ Page({
   // 加载日期内容
   loadDateContent(fullDate) {
     const { checkInData } = this.data
-    const content = checkInData[fullDate] || []
+    const safeCheckInData = checkInData || {}
+    const content = safeCheckInData[fullDate] || []
 
     this.setData({
       hasContent: content.length > 0,
@@ -287,10 +288,11 @@ Page({
     }
 
     const { checkInData } = this.data
+    const safeCheckInData = checkInData || {}
     const dateKey = selectedDate
 
-    if (!checkInData[dateKey]) {
-      checkInData[dateKey] = []
+    if (!safeCheckInData[dateKey]) {
+      safeCheckInData[dateKey] = []
     }
 
     const content = {
@@ -300,15 +302,20 @@ Page({
 
     if (editIndex >= 0) {
       // 更新现有记录
-      checkInData[dateKey][editIndex] = content
+      safeCheckInData[dateKey][editIndex] = content
     } else {
       // 添加新记录
-      checkInData[dateKey].push(content)
+      safeCheckInData[dateKey].push(content)
     }
+
+    // 更新数据
+    this.setData({
+      checkInData: safeCheckInData
+    })
 
     // 保存到本地
     const app = getApp()
-    app.globalData.checkInData = checkInData
+    app.globalData.checkInData = safeCheckInData
     app.saveCheckInData()
 
     // 刷新内容显示
