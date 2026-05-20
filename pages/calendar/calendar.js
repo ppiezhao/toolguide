@@ -287,10 +287,12 @@ Page({
       return
     }
 
+    // 获取当前的 checkInData
     const { checkInData } = this.data
     const safeCheckInData = checkInData || {}
     const dateKey = selectedDate
 
+    // 初始化数组
     if (!safeCheckInData[dateKey]) {
       safeCheckInData[dateKey] = []
     }
@@ -308,21 +310,16 @@ Page({
       safeCheckInData[dateKey].push(content)
     }
 
-    // 更新数据
-    this.setData({
-      checkInData: safeCheckInData
-    })
-
-    // 保存到本地
+    // 保存到本地存储
     const app = getApp()
     app.globalData.checkInData = safeCheckInData
     app.saveCheckInData()
 
-    // 刷新内容显示
-    this.loadDateContent(dateKey)
-
-    // 关闭模态框
+    // 更新页面数据，触发视图刷新
     this.setData({
+      checkInData: safeCheckInData,
+      hasContent: true,
+      contentItems: safeCheckInData[dateKey] || [],
       showModal: false,
       editText: ''
     })
@@ -332,7 +329,7 @@ Page({
       icon: 'success'
     })
 
-    // 刷新日历
+    // 刷新日历显示
     this.renderCalendar()
   },
 
