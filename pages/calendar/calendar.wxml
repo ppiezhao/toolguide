@@ -58,7 +58,7 @@
         <view class="content-text {{item.color === 'red' ? 'red' : ''}}" wx:for="{{contentItems}}" wx:key="index">
           {{item.text}}
         </view>
-      </block>
+      </view>
 
       <button class="edit-btn" bindtap="showEditModal">+ 添加记录</button>
     </block>
