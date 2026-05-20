@@ -114,6 +114,13 @@ Page({
     })
   },
 
+  // 跳转到打卡页面
+  goToCheckIn() {
+    wx.navigateTo({
+      url: '/pages/calendar/calendar'
+    })
+  },
+
   // 加载更多
   loadMore() {
     if (this.data.loading) return
