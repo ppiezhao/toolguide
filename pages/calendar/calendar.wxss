@@ -159,6 +159,13 @@
   border-radius: 20rpx;
   padding: 30rpx;
   box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.05);
+  min-height: 200rpx;
+  display: flex;
+  flex-direction: column;
+}
+
+.calendar-content:empty {
+  display: none;
 }
 
 .content-date {
@@ -200,14 +207,17 @@
 }
 
 .edit-btn {
-  margin-top: 20rpx;
-  padding: 16rpx 32rpx;
+  margin-top: auto;
+  padding: 20rpx 40rpx;
   background-color: #07C160;
   color: #FFFFFF;
-  border-radius: 8rpx;
-  font-size: 26rpx;
+  border-radius: 40rpx;
+  font-size: 28rpx;
   margin: 20rpx 0 0 0;
   line-height: 1;
+  width: 100%;
+  text-align: center;
+  border: none;
 }
 
 .edit-btn::after {
