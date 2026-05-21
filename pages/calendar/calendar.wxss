@@ -168,6 +168,31 @@
   display: none;
 }
 
+/* 空状态添加按钮 */
+.empty-add-btn {
+  margin: 0 20rpx 20rpx;
+  padding: 24rpx;
+  background: linear-gradient(135deg, #07C160 0%, #06AD56 100%);
+  border-radius: 16rpx;
+  text-align: center;
+  box-shadow: 0 4rpx 12rpx rgba(7, 193, 96, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.empty-add-btn:active {
+  transform: scale(0.98);
+}
+
+.empty-add-btn text {
+  color: #FFFFFF;
+  font-size: 30rpx;
+  font-weight: bold;
+}
+
 .content-date {
   font-size: 32rpx;
   font-weight: bold;

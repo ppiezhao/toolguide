@@ -63,6 +63,11 @@
       <button class="edit-btn" bindtap="showEditModal">+ 添加记录</button>
     </block>
   </view>
+
+  <!-- 空状态添加按钮 -->
+  <view wx:if="{{!hasContent}}" class="empty-add-btn" bindtap="showEditModal">
+    <text>＋ 开始记录</text>
+  </view>
 </view>
 
 <!-- 编辑模态框 -->
