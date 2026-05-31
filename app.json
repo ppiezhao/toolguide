@@ -1,7 +1,9 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/calendar/calendar"
+    "pages/calendar/calendar",
+    "pages/algorithm/list/list",
+    "pages/algorithm/playground/playground"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -9,6 +11,21 @@
     "navigationBarTitleText": "工具导航",
     "navigationBarTextStyle": "white",
     "backgroundColor": "#F7F7F7"
+  },
+  "subpackages": [
+    { "root": "subpkg/sorting",    "name": "sorting" },
+    { "root": "subpkg/searching",  "name": "searching" },
+    { "root": "subpkg/linkedlist", "name": "linkedlist" },
+    { "root": "subpkg/tree",       "name": "tree" },
+    { "root": "subpkg/graph",      "name": "graph" },
+    { "root": "subpkg/dp",         "name": "dp" },
+    { "root": "subpkg/array-hash", "name": "array-hash" }
+  ],
+  "preloadRule": {
+    "pages/algorithm/list/list": {
+      "network": "all",
+      "packages": ["subpkg/sorting"]
+    }
   },
   "sitemapLocation": "sitemap.json"
 }

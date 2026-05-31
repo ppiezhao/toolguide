@@ -1,0 +1,82 @@
+.card {
+  position: relative;
+  background: #FFFFFF;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  margin-bottom: 16rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.06);
+  transition: transform 0.15s;
+}
+
+.card:active {
+  transform: scale(0.98);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12rpx;
+}
+
+.card-index {
+  font-size: 22rpx;
+  color: #BBB;
+  width: 48rpx;
+  flex-shrink: 0;
+}
+
+.card-name {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #333;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.card-diff {
+  font-size: 22rpx;
+  padding: 4rpx 16rpx;
+  border-radius: 20rpx;
+  flex-shrink: 0;
+  margin-left: 12rpx;
+}
+
+.difficulty-easy { background: #E8F5E9; color: #07C160; }
+.difficulty-medium { background: #FFF8E1; color: #F9A825; }
+.difficulty-hard { background: #FFEBEE; color: #E64340; }
+
+.card-meta {
+  display: flex;
+  gap: 20rpx;
+  margin-bottom: 8rpx;
+}
+
+.meta-item {
+  font-size: 22rpx;
+  color: #999;
+}
+
+.card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8rpx;
+}
+
+.tag {
+  font-size: 20rpx;
+  color: #07C160;
+  background: #E8F5E9;
+  padding: 2rpx 12rpx;
+  border-radius: 4rpx;
+}
+
+.card-arrow {
+  position: absolute;
+  right: 24rpx;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 36rpx;
+  color: #CCC;
+}

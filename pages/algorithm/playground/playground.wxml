@@ -1,0 +1,86 @@
+<!--pages/algorithm/playground/playground.wxml-->
+<view class="container">
+  <!-- 加载中 -->
+  <view wx:if="{{loading}}" class="state-view">
+    <text class="state-icon">⏳</text>
+    <text class="state-text">加载算法中...</text>
+  </view>
+
+  <!-- 错误状态 -->
+  <view wx:elif="{{error && !loading}}" class="state-view">
+    <text class="state-icon">❌</text>
+    <text class="state-text">{{error}}</text>
+    <view class="retry-btn" bindtap="onRetry">重试</view>
+  </view>
+
+  <!-- 主内容 -->
+  <block wx:else>
+    <!-- Canvas 可视化区域 -->
+    <view class="canvas-section">
+      <canvas
+        type="2d"
+        id="algo-canvas"
+        class="algo-canvas"
+        style="width: {{canvasWidth}}px; height: {{canvasHeight}}px;"
+      ></canvas>
+    </view>
+
+    <!-- 进度条 -->
+    <view class="progress-wrap" wx:if="{{totalSteps > 0}}">
+      <view class="progress-bar">
+        <view class="progress-fill" style="width: {{(stepIndex + 1) / totalSteps * 100}}%"></view>
+      </view>
+      <text class="progress-text">{{Math.round((stepIndex + 1) / totalSteps * 100)}}%</text>
+    </view>
+
+    <!-- 控制栏 -->
+    <control-bar
+      playing="{{playing}}"
+      speed="{{speed}}"
+      stepIndex="{{stepIndex}}"
+      totalSteps="{{totalSteps}}"
+      playerState="{{playerState}}"
+      bind:play="onPlay"
+      bind:pause="onPause"
+      bind:next="onNext"
+      bind:prev="onPrev"
+      bind:jumpToStart="onJumpToStart"
+      bind:jumpToEnd="onJumpToEnd"
+      bind:speedChange="onSpeedChange"
+    />
+
+    <!-- 步骤描述 -->
+    <view class="step-desc" wx:if="{{stepDescription}}">
+      <text class="step-label">步骤 {{stepIndex + 1}}/{{totalSteps}}</text>
+      <text class="step-text">{{stepDescription}}</text>
+    </view>
+
+    <!-- 变量面板 -->
+    <variable-panel variables="{{variables}}" />
+
+    <!-- 代码面板 -->
+    <code-panel
+      codeLines="{{codeLines}}"
+      highlightedLines="{{highlightedLines}}"
+    />
+
+    <!-- 题目描述（可折叠） -->
+    <view class="desc-section">
+      <view class="desc-header" bindtap="onToggleDesc">
+        <text class="desc-title">题目描述</text>
+        <text class="desc-arrow {{descExpanded ? 'expanded' : ''}}">▼</text>
+      </view>
+      <view wx:if="{{descExpanded}}" class="desc-body">
+        <view class="desc-meta">
+          <text class="desc-difficulty difficulty-{{difficulty}}">{{difficultyName}}</text>
+          <text class="desc-complexity">时间: {{timeComplexity || '-'}}</text>
+          <text class="desc-complexity">空间: {{spaceComplexity || '-'}}</text>
+        </view>
+        <text class="desc-text">{{problemDescription}}</text>
+      </view>
+    </view>
+
+    <!-- 底部留白 -->
+    <view style="height: 40rpx;"></view>
+  </block>
+</view>

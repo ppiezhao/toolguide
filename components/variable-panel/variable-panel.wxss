@@ -1,0 +1,57 @@
+.variable-panel {
+  background: #FFFFFF;
+  border-radius: 16rpx;
+  overflow: hidden;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.06);
+}
+
+.panel-header {
+  padding: 16rpx 24rpx;
+  border-bottom: 1rpx solid #F0F0F0;
+}
+
+.panel-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.var-list {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 16rpx 24rpx;
+  gap: 12rpx;
+}
+
+.var-item {
+  display: flex;
+  align-items: center;
+  background: #F5F5F5;
+  border-radius: 8rpx;
+  padding: 8rpx 16rpx;
+  transition: background 0.3s;
+}
+
+.var-item.changed {
+  background: #FFEBEE;
+}
+
+.var-name {
+  font-size: 22rpx;
+  color: #999;
+  margin-right: 8rpx;
+  font-family: monospace;
+}
+
+.var-value {
+  font-size: 24rpx;
+  color: #333;
+  font-weight: 600;
+  font-family: monospace;
+}
+
+.var-empty {
+  font-size: 24rpx;
+  color: #CCC;
+  padding: 8rpx 0;
+}

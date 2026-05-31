@@ -1,0 +1,133 @@
+/* pages/algorithm/list/list.wxss */
+.container {
+  padding: 16rpx 24rpx 0;
+  background: #F7F7F7;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* 搜索栏 */
+.search-bar {
+  display: flex;
+  align-items: center;
+  background: #FFFFFF;
+  border-radius: 32rpx;
+  padding: 12rpx 24rpx;
+  margin-bottom: 16rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.04);
+}
+
+.search-icon {
+  font-size: 28rpx;
+  margin-right: 12rpx;
+}
+
+.search-input {
+  flex: 1;
+  font-size: 28rpx;
+}
+
+.search-clear {
+  font-size: 28rpx;
+  color: #CCC;
+  padding: 4rpx 8rpx;
+}
+
+/* 分类标签 */
+.category-tabs {
+  white-space: nowrap;
+  margin-bottom: 12rpx;
+}
+
+.tab-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4rpx;
+  padding: 12rpx 24rpx;
+  margin-right: 12rpx;
+  border-radius: 32rpx;
+  background: #FFFFFF;
+  font-size: 26rpx;
+  color: #666;
+  transition: all 0.2s;
+}
+
+.tab-item.active {
+  background: #07C160;
+  color: #FFFFFF;
+}
+
+.tab-icon {
+  font-size: 24rpx;
+}
+
+/* 难度筛选 */
+.filter-row {
+  display: flex;
+  gap: 16rpx;
+  margin-bottom: 16rpx;
+}
+
+.filter-btn {
+  font-size: 24rpx;
+  color: #999;
+  padding: 8rpx 24rpx;
+  border-radius: 20rpx;
+  background: #FFFFFF;
+  transition: all 0.2s;
+}
+
+.filter-btn.active {
+  color: #FFFFFF;
+}
+
+.filter-btn.filter-easy.active { background: #07C160; }
+.filter-btn.filter-medium.active { background: #F9A825; }
+.filter-btn.filter-hard.active { background: #E64340; }
+
+/* 加载/错误/空状态 */
+.loading-state,
+.error-state,
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 120rpx 0;
+  color: #999;
+  font-size: 28rpx;
+}
+
+.error-text {
+  color: #E64340;
+  margin-bottom: 24rpx;
+}
+
+.retry-btn {
+  color: #07C160;
+  font-size: 28rpx;
+  padding: 12rpx 48rpx;
+  border: 2rpx solid #07C160;
+  border-radius: 32rpx;
+}
+
+.empty-icon {
+  font-size: 64rpx;
+  margin-bottom: 16rpx;
+}
+
+.empty-text {
+  font-size: 30rpx;
+  color: #999;
+  margin-bottom: 8rpx;
+}
+
+.empty-hint {
+  font-size: 24rpx;
+  color: #CCC;
+}
+
+/* 算法列表 */
+.algo-list {
+  padding-top: 4rpx;
+}

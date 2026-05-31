@@ -1,0 +1,19 @@
+<!-- 变量状态面板组件 -->
+<view class="variable-panel">
+  <view class="panel-header">
+    <text class="panel-title">变量状态</text>
+  </view>
+  <view class="var-list">
+    <view
+      wx:for="{{variableEntries}}"
+      wx:key="name"
+      class="var-item {{item.changed ? 'changed' : ''}}"
+    >
+      <text class="var-name">{{item.name}}</text>
+      <text class="var-value">{{item.value}}</text>
+    </view>
+    <view wx:if="{{variableEntries.length === 0}}" class="var-empty">
+      暂无变量
+    </view>
+  </view>
+</view>

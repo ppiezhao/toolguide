@@ -1,0 +1,20 @@
+<!-- 算法卡片组件 -->
+<view class="card" bindtap="onTap">
+  <view class="card-header">
+    <text class="card-index">{{indexStr}}</text>
+    <text class="card-name">{{name}}</text>
+    <text class="card-diff difficulty-{{difficulty}}">{{difficultyName}}</text>
+  </view>
+
+  <view class="card-meta">
+    <text class="meta-item">时间: {{timeComplexity}}</text>
+    <text class="meta-item">空间: {{spaceComplexity}}</text>
+    <text wx:if="{{stable !== undefined}}" class="meta-item">{{stable ? '稳定' : '不稳定'}}</text>
+  </view>
+
+  <view class="card-tags" wx:if="{{tags && tags.length > 0}}">
+    <text wx:for="{{tags}}" wx:key="*this" wx:for-item="tag" class="tag">{{tag}}</text>
+  </view>
+
+  <view class="card-arrow">›</view>
+</view>

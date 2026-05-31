@@ -10,7 +10,19 @@ Page({
     showLoadMore: true,
     loading: false,
     filteredApps: [],
-    bannerDots: [true, false, false]
+    bannerDots: [true, false, false],
+    categories: [
+      { value: 'all', name: '全部' },
+      { value: 'food', name: '美食' },
+      { value: 'travel', name: '出行' },
+      { value: 'shopping', name: '购物' },
+      { value: 'entertainment', name: '娱乐' },
+      { value: 'tools', name: '工具' },
+      { value: 'education', name: '教育' },
+      { value: 'finance', name: '金融' },
+      { value: 'life', name: '生活' },
+      { value: 'health', name: '健康' }
+    ]
   },
 
   /**
@@ -108,11 +120,13 @@ Page({
   // 打开小程序
   openApp(e) {
     const { app } = e.currentTarget.dataset
-    // 如果是打卡小程序，导航到打卡页面
+    // 内部页面跳转
     if (app.id === 'checkin') {
-      wx.navigateTo({
-        url: '/pages/calendar/calendar'
-      })
+      wx.navigateTo({ url: '/pages/calendar/calendar' })
+      return
+    }
+    if (app.id === 'algorithm') {
+      wx.navigateTo({ url: '/pages/algorithm/list/list' })
       return
     }
     wx.showToast({

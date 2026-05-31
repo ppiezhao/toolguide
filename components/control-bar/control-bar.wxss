@@ -1,0 +1,80 @@
+.control-bar {
+  background: #FFFFFF;
+  padding: 12rpx 24rpx;
+  border-radius: 16rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.06);
+}
+
+.step-info {
+  text-align: center;
+  font-size: 24rpx;
+  color: #999;
+  margin-bottom: 8rpx;
+}
+
+.control-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16rpx;
+  margin-bottom: 12rpx;
+}
+
+.ctrl-btn {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #F5F5F5;
+  transition: background 0.2s;
+}
+
+.ctrl-btn:active {
+  background: #E0E0E0;
+}
+
+.ctrl-btn.main {
+  width: 80rpx;
+  height: 80rpx;
+  background: #07C160;
+}
+
+.ctrl-btn.main:active {
+  background: #06AD56;
+}
+
+.ctrl-btn.main.paused {
+  background: #E64340;
+}
+
+.ctrl-icon {
+  font-size: 28rpx;
+  color: #333;
+}
+
+.ctrl-btn.main .ctrl-icon {
+  color: #FFFFFF;
+  font-size: 34rpx;
+}
+
+.speed-controls {
+  display: flex;
+  justify-content: center;
+  gap: 12rpx;
+}
+
+.speed-btn {
+  font-size: 22rpx;
+  color: #999;
+  padding: 4rpx 16rpx;
+  border-radius: 20rpx;
+  background: #F5F5F5;
+  transition: all 0.2s;
+}
+
+.speed-btn.active {
+  color: #FFFFFF;
+  background: #07C160;
+}

@@ -1,0 +1,38 @@
+<!-- 播放控制栏组件 -->
+<view class="control-bar">
+  <view class="step-info">
+    <text>步骤 {{stepIndex + 1}} / {{totalSteps || '-'}}</text>
+  </view>
+
+  <view class="control-buttons">
+    <view class="ctrl-btn" bindtap="onJumpToStart">
+      <text class="ctrl-icon">⏮</text>
+    </view>
+
+    <view class="ctrl-btn" bindtap="onPrev">
+      <text class="ctrl-icon">◀</text>
+    </view>
+
+    <view class="ctrl-btn main {{playing ? 'paused' : ''}}" bindtap="onTogglePlay">
+      <text class="ctrl-icon">{{playing ? '⏸' : '▶'}}</text>
+    </view>
+
+    <view class="ctrl-btn" bindtap="onNext">
+      <text class="ctrl-icon">▶</text>
+    </view>
+
+    <view class="ctrl-btn" bindtap="onJumpToEnd">
+      <text class="ctrl-icon">⏭</text>
+    </view>
+  </view>
+
+  <view class="speed-controls">
+    <text
+      wx:for="{{speedOptions}}"
+      wx:key="value"
+      class="speed-btn {{speed === item.value ? 'active' : ''}}"
+      data-speed="{{item.value}}"
+      bindtap="onSpeedChange"
+    >{{item.label}}</text>
+  </view>
+</view>

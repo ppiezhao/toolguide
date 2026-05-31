@@ -1,0 +1,55 @@
+.code-panel {
+  background: #FFFFFF;
+  border-radius: 16rpx;
+  overflow: hidden;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.06);
+}
+
+.panel-header {
+  padding: 16rpx 24rpx;
+  border-bottom: 1rpx solid #F0F0F0;
+}
+
+.panel-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.code-scroll {
+  max-height: 360rpx;
+  padding: 12rpx 0;
+}
+
+.code-line {
+  display: flex;
+  align-items: flex-start;
+  padding: 4rpx 16rpx;
+  min-height: 36rpx;
+  transition: background 0.2s;
+}
+
+.code-line.active {
+  background: #E8F5E9;
+  border-left: 4rpx solid #07C160;
+  padding-left: 12rpx;
+}
+
+.line-number {
+  width: 48rpx;
+  text-align: right;
+  font-size: 22rpx;
+  color: #BBB;
+  margin-right: 16rpx;
+  flex-shrink: 0;
+  font-family: monospace;
+  line-height: 36rpx;
+}
+
+.line-content {
+  font-size: 22rpx;
+  color: #333;
+  font-family: monospace;
+  line-height: 36rpx;
+  white-space: pre;
+}

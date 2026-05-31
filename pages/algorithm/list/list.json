@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "算法可视化",
+  "usingComponents": {
+    "problem-card": "/components/problem-card/problem-card"
+  }
+}

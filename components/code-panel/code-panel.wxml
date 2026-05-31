@@ -1,0 +1,16 @@
+<!-- 伪代码面板组件 -->
+<view class="code-panel">
+  <view class="panel-header">
+    <text class="panel-title">代码</text>
+  </view>
+  <scroll-view class="code-scroll" scroll-y enhanced show-scrollbar="{{false}}">
+    <view
+      wx:for="{{codeLines}}"
+      wx:key="index"
+      class="code-line {{highlightedLines.indexOf(index) !== -1 ? 'active' : ''}}"
+    >
+      <text class="line-number">{{index + 1}}</text>
+      <text class="line-content">{{item}}</text>
+    </view>
+  </scroll-view>
+</view>

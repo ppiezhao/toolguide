@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "算法可视化",
+  "usingComponents": {
+    "control-bar": "/components/control-bar/control-bar",
+    "code-panel": "/components/code-panel/code-panel",
+    "variable-panel": "/components/variable-panel/variable-panel"
+  }
+}
