@@ -30,7 +30,7 @@ function* steps(input) {
     description: `字符串="${s}"，长度=${n}。初始化最长回文="${s[0]}"，开始中心扩展。`
   };
 
-  function expandAroundCenter(left, right) {
+  function* expandAroundCenter(left, right) {
     while (left >= 0 && right < n && s[left] === s[right]) {
       expandCount++;
       const currentLen = right - left + 1;
@@ -83,7 +83,7 @@ function* steps(input) {
       description: `奇数中心：s[${i}]='${s[i]}'，开始向两边扩展。`
     };
 
-    expandAroundCenter(i, i);
+    yield* expandAroundCenter(i, i);
 
     // 偶数长度中心
     if (i + 1 < n) {
@@ -102,7 +102,7 @@ function* steps(input) {
         description: `偶数中心：s[${i}]='${s[i]}'和s[${i + 1}]='${s[i + 1]}'，开始向两边扩展。`
       };
 
-      expandAroundCenter(i, i + 1);
+      yield* expandAroundCenter(i, i + 1);
     }
   }
 
