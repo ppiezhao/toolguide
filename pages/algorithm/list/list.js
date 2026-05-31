@@ -38,8 +38,27 @@ Page({
   },
 
   onLoad() {
-    // 排序子包已预加载，先加载排序
-    this._loadCategoryAlgorithms('sorting');
+    // 加载全部算法
+    this._loadAllAlgorithms();
+  },
+
+  // ─── 加载全部算法 ──────────────────────────────────────────
+
+  _loadAllAlgorithms() {
+    this.setData({ loading: true, error: '' });
+    const loadedCategories = {};
+
+    try {
+      for (const cat in SUBPKG_MAP) {
+        const modules = require(SUBPKG_MAP[cat]);
+        loadedCategories[cat] = modules;
+      }
+      this.setData({ loadedCategories, loading: false });
+      this._filterAndRender();
+    } catch (e) {
+      console.error('加载算法失败', e);
+      this.setData({ error: '加载失败: ' + e.message, loading: false });
+    }
   },
 
   // ─── 分类切换 ──────────────────────────────────────────────
@@ -48,49 +67,7 @@ Page({
     const category = e.currentTarget.dataset.category;
     if (category === this.data.currentCategory) return;
     this.setData({ currentCategory: category, searchText: '' });
-    this._loadCategoryAlgorithms(category);
-  },
-
-  _loadCategoryAlgorithms(category) {
-    if (category === 'all') {
-      // 加载全部：合并所有已加载分类
-      this._filterAndRender();
-      return;
-    }
-
-    // 如果已缓存，直接使用
-    if (this.data.loadedCategories[category]) {
-      this._filterAndRender();
-      return;
-    }
-
-    const subpkgPath = SUBPKG_MAP[category];
-    if (!subpkgPath) {
-      this._filterAndRender();
-      return;
-    }
-
-    this.setData({ loading: true, error: '' });
-
-    wx.loadSubpackage({
-      name: category,
-      success: () => {
-        try {
-          const modules = require(subpkgPath);
-          const loadedCategories = Object.assign({}, this.data.loadedCategories);
-          loadedCategories[category] = modules;
-          this.setData({ loadedCategories, loading: false });
-          this._filterAndRender();
-        } catch (e) {
-          console.error('加载算法失败', e);
-          this.setData({ error: '加载失败: ' + e.message, loading: false });
-        }
-      },
-      fail: (err) => {
-        console.error('加载子包失败', err);
-        this.setData({ error: '加载子包失败', loading: false });
-      }
-    });
+    this._filterAndRender();
   },
 
   // ─── 难度筛选 ──────────────────────────────────────────────
@@ -169,6 +146,6 @@ Page({
   // ─── 重试 ──────────────────────────────────────────────────
 
   onRetry() {
-    this._loadCategoryAlgorithms(this.data.currentCategory);
+    this._loadAllAlgorithms();
   }
 });
