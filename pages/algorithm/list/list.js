@@ -7,15 +7,23 @@
 
 const categories = require('../../../config/categories.js');
 
-// 子包路径映射
-const SUBPKG_MAP = {
-  sorting:    '../../../subpkg/sorting/index',
-  searching:  '../../../subpkg/searching/index',
-  linkedlist: '../../../subpkg/linkedlist/index',
-  tree:       '../../../subpkg/tree/index',
-  graph:      '../../../subpkg/graph/index',
-  dp:         '../../../subpkg/dp/index',
-  'array-hash': '../../../subpkg/array-hash/index'
+// 静态 require（打包器需要静态路径才能正确编译）
+const sortingModules    = require('../../../subpkg/sorting/index');
+const searchingModules  = require('../../../subpkg/searching/index');
+const linkedlistModules = require('../../../subpkg/linkedlist/index');
+const treeModules       = require('../../../subpkg/tree/index');
+const graphModules      = require('../../../subpkg/graph/index');
+const dpModules         = require('../../../subpkg/dp/index');
+const arrayHashModules  = require('../../../subpkg/array-hash/index');
+
+const LOADED_CATEGORIES = {
+  sorting:    sortingModules,
+  searching:  searchingModules,
+  linkedlist: linkedlistModules,
+  tree:       treeModules,
+  graph:      graphModules,
+  dp:         dpModules,
+  'array-hash': arrayHashModules
 };
 
 Page({
@@ -30,35 +38,15 @@ Page({
       { value: 'hard', label: '困难' }
     ],
     searchText: '',
-    allAlgorithms: [],       // 所有已加载的算法模块
-    filteredAlgorithms: [],  // 过滤后的结果
+    allAlgorithms: [],
+    filteredAlgorithms: [],
     loading: true,
     error: '',
-    loadedCategories: {}    // 已加载的分类缓存
+    loadedCategories: LOADED_CATEGORIES
   },
 
   onLoad() {
-    // 加载全部算法
-    this._loadAllAlgorithms();
-  },
-
-  // ─── 加载全部算法 ──────────────────────────────────────────
-
-  _loadAllAlgorithms() {
-    this.setData({ loading: true, error: '' });
-    const loadedCategories = {};
-
-    try {
-      for (const cat in SUBPKG_MAP) {
-        const modules = require(SUBPKG_MAP[cat]);
-        loadedCategories[cat] = modules;
-      }
-      this.setData({ loadedCategories, loading: false });
-      this._filterAndRender();
-    } catch (e) {
-      console.error('加载算法失败', e);
-      this.setData({ error: '加载失败: ' + e.message, loading: false });
-    }
+    this._filterAndRender();
   },
 
   // ─── 分类切换 ──────────────────────────────────────────────
@@ -129,6 +117,7 @@ Page({
     });
 
     this.setData({
+      loading: false,
       allAlgorithms: allAlgos,
       filteredAlgorithms: filtered
     });
@@ -146,6 +135,7 @@ Page({
   // ─── 重试 ──────────────────────────────────────────────────
 
   onRetry() {
-    this._loadAllAlgorithms();
+    this.setData({ error: '', loading: true });
+    this._filterAndRender();
   }
 });

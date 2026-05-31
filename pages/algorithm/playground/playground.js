@@ -12,15 +12,23 @@ const LinkedListRenderer = require('../../../core/visualizer/LinkedListRenderer.
 const TreeRenderer = require('../../../core/visualizer/TreeRenderer.js');
 const GraphRenderer = require('../../../core/visualizer/GraphRenderer.js');
 
-// 子包路径映射
-const SUBPKG_MAP = {
-  sorting:    '../../../subpkg/sorting/index',
-  searching:  '../../../subpkg/searching/index',
-  linkedlist: '../../../subpkg/linkedlist/index',
-  tree:       '../../../subpkg/tree/index',
-  graph:      '../../../subpkg/graph/index',
-  dp:         '../../../subpkg/dp/index',
-  'array-hash': '../../../subpkg/array-hash/index'
+// 静态 require（打包器需要静态路径才能正确编译）
+const sortingModules    = require('../../../subpkg/sorting/index');
+const searchingModules  = require('../../../subpkg/searching/index');
+const linkedlistModules = require('../../../subpkg/linkedlist/index');
+const treeModules       = require('../../../subpkg/tree/index');
+const graphModules      = require('../../../subpkg/graph/index');
+const dpModules         = require('../../../subpkg/dp/index');
+const arrayHashModules  = require('../../../subpkg/array-hash/index');
+
+const ALL_MODULES = {
+  sorting:    sortingModules,
+  searching:  searchingModules,
+  linkedlist: linkedlistModules,
+  tree:       treeModules,
+  graph:      graphModules,
+  dp:         dpModules,
+  'array-hash': arrayHashModules
 };
 
 // 难度名称映射
@@ -81,7 +89,7 @@ Page({
     const sysInfo = wx.getSystemInfoSync();
     const screenWidth = sysInfo.windowWidth;
     this.setData({
-      canvasWidth: screenWidth - 48,   // 减去容器 padding 24*2
+      canvasWidth: screenWidth - 48,
       canvasHeight: Math.min(300, screenWidth * 0.7)
     });
 
@@ -103,14 +111,14 @@ Page({
 
   _loadAlgorithm() {
     const { category, algorithmId } = this.data;
-    const subpkgPath = SUBPKG_MAP[category];
-    if (!subpkgPath) {
+
+    const modules = ALL_MODULES[category];
+    if (!modules) {
       this.setData({ error: '未知分类: ' + category, loading: false });
       return;
     }
 
     try {
-      const modules = require(subpkgPath);
       const algo = modules.find(m => m.meta && m.meta.id === algorithmId);
       if (!algo) {
         this.setData({ error: '未找到算法: ' + algorithmId, loading: false });
