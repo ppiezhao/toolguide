@@ -143,7 +143,7 @@ function* steps(input) {
           consideredEdges: [...consideredEdges]
         },
         description: `拒绝边 ${edgeId}（权重=${edge.weight}）：两个节点已在同一连通分量中，加入会形成环。`
-      });
+      };
     }
   }
 
