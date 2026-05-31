@@ -109,28 +109,18 @@ Page({
       return;
     }
 
-    const subpkgName = category;
-    wx.loadSubpackage({
-      name: subpkgName,
-      success: () => {
-        try {
-          const modules = require(subpkgPath);
-          const algo = modules.find(m => m.meta && m.meta.id === algorithmId);
-          if (!algo) {
-            this.setData({ error: '未找到算法: ' + algorithmId, loading: false });
-            return;
-          }
-          this._initAlgorithm(algo);
-        } catch (e) {
-          console.error('加载算法失败', e);
-          this.setData({ error: '加载失败: ' + e.message, loading: false });
-        }
-      },
-      fail: (err) => {
-        console.error('加载子包失败', err);
-        this.setData({ error: '加载子包失败', loading: false });
+    try {
+      const modules = require(subpkgPath);
+      const algo = modules.find(m => m.meta && m.meta.id === algorithmId);
+      if (!algo) {
+        this.setData({ error: '未找到算法: ' + algorithmId, loading: false });
+        return;
       }
-    });
+      this._initAlgorithm(algo);
+    } catch (e) {
+      console.error('加载算法失败', e);
+      this.setData({ error: '加载失败: ' + e.message, loading: false });
+    }
   },
 
   _initAlgorithm(module) {
